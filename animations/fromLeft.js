@@ -4,32 +4,26 @@ var FromLeftAnimation = new Class({
 	
 	name: 'FromLeft',
 	
-	extendedSetup: function()
-	{
-		this.endPanel.set('morph', {onComplete: this.animationCompleted.bind(this)});
-		this.endPanel.setStyle('box-shadow', 'rgb(70,70,70) 10px 0px 10px');
-	},
-	
 	doTransition: function()
 	{
-		var width = this.options.width
-		this.endNode.captionPanel.setStyle('z-index', 2);
-		this.startNode.captionPanel.setStyle('z-index', 2);
-		this.switchCaptionsWithFade();
+		this.endNode.setStyle('box-shadow', 'rgb(70,70,70) 10px 10px 10px');
+		this.endNode.morpher.onComplete =  this.animationCompleted.bind(this);
+		var width = this.startNode.getParent().getDimensions().width
 		
-		this.showStartPanel();
-		this.showEndPanel();
-		this.endPanel.setStyle('z-index', 1);
-		this.endPanel.setStyle('left', -width) 
-		this.endPanel.morph({'left':0});
+		this.startNode.show();
+		this.endNode.show();
+		this.endNode.setStyle('z-index', 1);
+		this.endNode.setStyle('left', -width) 
+		this.endNode.morph({'left':0});
 		
 	},
 	
 	onComplete: function()
 	{
-		this.endPanel.setStyle('z-index', 0);
-		this.endNode.captionPanel.setStyle('z-index', 0);
-		this.startNode.captionPanel.setStyle('z-index', 0);
+		this.endNode.setStyle('z-index', 0);
+		this.endNode.setStyle('box-shadow', 'none');
+		this.startNode.hide();
+		this.endNode.setUpMorph();
 	}
 	
 }) 

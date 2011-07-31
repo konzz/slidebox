@@ -7,6 +7,7 @@ var FromTopAnimation = new Class({
 	
 	doTransition: function()
 	{
+		this.endNode.setStyle('box-shadow', 'rgb(70,70,70) 10px 10px 10px');
 		this.endNode.morpher.onComplete =  this.animationCompleted.bind(this);
 		var height = this.startNode.getParent().getDimensions().height
 		
@@ -21,6 +22,7 @@ var FromTopAnimation = new Class({
 	onComplete: function()
 	{
 		this.endNode.setStyle('z-index', 0);
+		this.endNode.setStyle('box-shadow', 'none');
 		this.startNode.hide();
 		this.endNode.setUpMorph();
 	}

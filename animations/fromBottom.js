@@ -4,32 +4,28 @@ var FromBottomAnimation = new Class({
 	
 	name: 'FromBottom',
 	
-	extendedSetup: function()
-	{
-		this.endPanel.set('morph', {onComplete: this.animationCompleted.bind(this)});
-		this.endPanel.setStyle('box-shadow', 'rgb(70,70,70) 0px -10px 10px');
-	},
-	
 	doTransition: function()
 	{
-		var height = this.options.height
-		this.endNode.captionPanel.setStyle('z-index', 2);
-		this.startNode.captionPanel.setStyle('z-index', 2);
-		this.switchCaptionsWithFade();
+		this.endNode.setStyle('box-shadow', 'rgb(70,70,70) -10px -10px 10px');
+		this.endNode.morpher.onComplete =  this.animationCompleted.bind(this);
+		var height = this.startNode.getParent().getDimensions().height
 		
-		this.showStartPanel();
-		this.showEndPanel();
-		this.endPanel.setStyle('z-index', 1);
-		this.endPanel.setStyle('top', height) 
-		this.endPanel.morph({'top':0});
+		this.startNode.show();
+		this.endNode.show();
+		this.endNode.setStyle('z-index', 1);
+		this.endNode.setStyle('top', height) 
+		this.endNode.morph({'top':0});
 		
 	},
 	
 	onComplete: function()
 	{
-		this.endPanel.setStyle('z-index', 0);
-		this.endNode.captionPanel.setStyle('z-index', 0);
-		this.startNode.captionPanel.setStyle('z-index', 0);
+		this.endNode.setStyle('z-index', 0);
+		this.endNode.setStyle('box-shadow', 'none');
+		this.startNode.hide();
+		this.endNode.setUpMorph();
 	}
 	
 }) 
+
+

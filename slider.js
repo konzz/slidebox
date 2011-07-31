@@ -8,9 +8,9 @@ window.addEvent('load', function(){
 	            //      new UpAndBottomColumns(slider.options),
 	            //      new LeftAndRightRowsAnimation(slider.options),
 	                  new FromRightAnimation(slider.options),
-	           //       new FromLeftAnimation(slider.options),
-	                 new FromTopAnimation(slider.options),
-	           //       new FromBottomAnimation(slider.options),
+	                  new FromLeftAnimation(slider.options),
+	                  new FromTopAnimation(slider.options),
+	                  new FromBottomAnimation(slider.options),
 	            //      new RandomCellFadeOutAnimation(slider.options),
 	           //       new RandomCellTransitionAnimation(slider.options)
 	                  ];
