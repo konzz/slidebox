@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SlideBox | Slide in a box</title>
 
@@ -30,10 +31,13 @@
 <link type="text/css" href="css/web.css" rel="stylesheet" media="screen" />
 
 </head>
+
 <body>
+
 <div id="wrapper">
-		<h1>{ SlideBox }</h1>
-		<div id="container">
+	<h1>{ SlideBox }</h1>
+	
+	<div id="container">
 		<ul id="myList">
 			<li>
 				<a href="http://codebox.es">
@@ -53,22 +57,24 @@
 				<div><h1><a href="http://codebox.es">Walle.</a></h1> Batallon de limpieza! Walle, un robot de limpiez que se queda solo en la tierra limpiando, pronto recibe la visita de EVA un robot en busca de vida vegetal!</div>
 			</li>
 			<li class="this">
-			<h1><strong>This</strong> is just the begining...</h1>
+				<h1><strong>This</strong> is just the begining...</h1>
 			</li>
 		</ul>
-		</div>
-		<div class="list">
-			<h3>Demos</h3>
-			<ul id="demos">
-				<li><a href="demos/demo1/"> Demo1</a></li>
-			</ul>
-		</div>
-		<div class="list">
+	</div>
+	
+	<div class="list">
+		<h3>Demos</h3>
+		<ul id="demos">
+			<li><a href="demos/demo1/"> Demo1</a></li>
+		</ul>
+	</div>
+	
+	<div class="list">
 		<h3>Animations</h3>
 		<ul id="animations">
 		</ul>
-		</div>
-		<div class="clear"></div>
-</div>
+	</div>
+
 </body>
+
 </html>
