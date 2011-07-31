@@ -1,0 +1,15 @@
+.slideboxcontainer
+{
+	float: left;
+}
+
+.innerContainer
+{
+	border: 0px solid black;
+}
+
+.clear
+{
+clear: both;
+margin-bottom: 20px;
+}

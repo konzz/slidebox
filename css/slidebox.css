@@ -1,0 +1,49 @@
+.innerContainer
+{
+	border: 1px solid black;
+}
+
+.caption,
+.caption a,
+.caption:visited
+{
+	color: white;
+	text-shadow: black 2px 2px 2px;
+	letter-spacing: 1px;
+	font-size: 14px;
+	letter-spacing: 1px;
+	font-family: Arial;
+}
+
+li.slidebox-bullet
+{
+	float: left;
+	list-style: none;
+	margin-left: 10px
+}
+
+li.slidebox-bullet a
+{
+	display: block;
+	width: 22px;
+	height: 22px;
+	background-image: url("images/bullets.png");
+}
+
+li.slidebox-bullet a.active
+{
+	background-position: 0px 22px;
+}
+
+.arrow
+{
+	background-image: url("images/arrows.png");
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+
+.rightarrow
+{
+	background-position: 30px 0px;
+}
