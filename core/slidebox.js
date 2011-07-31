@@ -2,18 +2,16 @@
 var SlideBox = new Class({
 	Implements: Options,
 	
-	nodes: [],
-	conatiner: undefined,
+	container: undefined,
 	
 	bulletsContainer: undefined,
-	
-	animations: [],
-	animationsList: [],
-	
 	bulletsController: undefined,
 	
-	currentNode: 0,
-	nextNode: undefined,
+	animations: [],
+	animationsList: [],	
+	
+	nodes: [],
+	pointer: 0,
 	onTransition: false,
 	
 	options: {
@@ -21,63 +19,112 @@ var SlideBox = new Class({
 		transition:			'sine:in:out',
 		wait: 				3000,
 		animation: 			'FromTop',
-		columns:			8,
-		rows:				5,
 		bullets:			false,
 		arrows: 			false,
 	},
 	
-	initialize: function(listID, options){
+	initialize: function(slideContainerID, options)
+	{
         this.setOptions(options);
-        this.setupContainer(listID);
-        this.getNodes(listID);
+        this.setupContainer(slideContainerID);
+        this.getNodes();
      //   this.createControls();
-        this.startSetup();
+        this.start();
     },
     
-    startSetup: function()
+    setupContainer: function(slideContainerID)
+    {
+    	this.container = $(slideContainerID);
+    	
+    	this.container.setStyles({
+    		'position':'relative',
+    		'overflow':'hidden',
+    	});
+    },
+    
+    start: function()
     {
     	this.nodes.each(function(node){
     		node.hide();
     	})
     	//if(this.options.bullets) this.bulletsController.setActive(0)
-    	this.nodes[0].show();
-    	this.nextNode = this.getNextNode(this.currentNode);
-    	this.startTransition();
+    	this.currentNode().show();
+    	this.startTimer();
     },
     
-    doAnimation: function()
+    doAnimation: function(nodeIndex)
+    { 
+    	var onSameNode = (this.pointer == nodeIndex);
+    	var onlyHasOneNode = (this.nodes.length == 1);
+    	
+    	if(onSameNode || onlyHasOneNode) return;
+    	
+		//this.setActiveBullet();
+		this.onTransition = true;
+		
+		var callBackFunction = this.onAnimationComplete.bind(this);
+		this.getAnimation().animate(this.currentNode(), this.nextNode(nodeIndex), callBackFunction);
+    },
+    
+    currentNode: function() 
     {
-    	if(this.currentNode == this.nextNode) return;
-    	var animation = this.getAnimation();
-    	if(animation)
-    	{
-    		this.setActiveBullet();
-    		this.onTransition = true;
-    		var startNode = this.nodes[this.currentNode];
-    		var endNode = this.nodes[this.nextNode];
-    		var callBackFunction = this.onAnimationComplete.bind(this);
-    		animation.animate(startNode, endNode, callBackFunction);
-    	}
+    	return this.nodes[this.pointer];
     },
     
-    setActiveBullet: function()
+    nextNode: function(nodeIndex)
+    {
+    	var nextNode = this.pointer + 1;
+    	
+    	if(nodeIndex != undefined)
+    	{
+    		nextNode = nodeIndex;
+    	}
+    	
+    	var isOutOfRigthBound = (nextNode > (this.nodes.length - 1));
+    	
+    	if(isOutOfRigthBound)
+    	{
+    		nextNode = 0;
+    	}
+    	
+    	return this.getNodeAt(nextNode);
+    },
+    
+    getNodeAt: function(nodeIndex)
+    {
+    	this.pointer = nodeIndex;
+    	return this.nodes[nodeIndex];
+    },
+    
+    
+   /* previousNode: function()
+    {
+    	var previousNode = this.pointer - 1;
+    	var isFirstNode = (previousNode == -1);
+    	
+    	if(isFirstNode)
+    	{
+    		previousNode = (this.nodes.length - 1);
+    	}
+    	
+    	return this.nodes[previousNode];
+    },*/
+    
+    /*setActiveBullet: function()
     {
     	if(!this.options.bullets) return;
     	var bulletIndex = this.nextNode;
     	//this.bulletsController.setActive(bulletIndex);
-    },
+    },*/
     
-    jumpToNode: function(index)
+    jumpToNode: function(nodeIndex)
     {
     	if(this.onTransition) return;
-    	if(index == this.currentNode) return;
-    	this.stopTransition();
-    	this.nextNode = index;
-    	this.doAnimation();
+    	this.stopTimer();
+    	this.doAnimation(nodeIndex);
     },
     
-    goNextNode: function()
+   /* goNextNode: function()
     {
     	this.jumpToNode(this.nextNode);
     },
@@ -86,60 +133,43 @@ var SlideBox = new Class({
     {
     	var previousNode = this.getPreviousNode(this.currentNode);
     	this.jumpToNode(previousNode);
-    },
+    },*/
     
-    startTransition: function()
+    startTimer: function()
     {
-    	this.transition = this.doAnimation.delay(this.options.wait,this);
+    	this.transition = function() {this.doAnimation();}.delay(this.options.wait, this);
     },
     
-    stopTransition: function()
+    stopTimer: function()
     {
     	clearTimeout(this.transition);
     },
     
     onAnimationComplete: function()
     {
-    	this.setNextNode();
-    	this.startTransition();
-    },
-    
-    setNextNode: function()
-    {
-    	this.currentNode = this.nextNode;
-    	this.nextNode = this.getNextNode(this.currentNode);
     	this.onTransition = false;
+    	this.startTimer();
     },
     
-    getNodes: function(listID)
+    getNodes: function()
     {
-    	var listElements = $(listID).getChildren();
-    	listElements.each(this.addNode.bind(this));
+    	var slides = this.container.getChildren();
+    	slides.each(this.addNode.bind(this));
     },
     
-    addNode: function(aListElement)
+    addNode: function(slide)
     {
-		var newNode = new Node(aListElement, this.options);
+		var newNode = new Node(slide, this.options);
 		this.nodes.push(newNode);
     },
-    
-    setupContainer: function(listID)
-    {
-    	this.container = $(listID);
-    	
-    	this.container.setStyles({
-    		'position':'relative',
-    		'overflow':'hidden',
-    	});
-    },
             
-    createControls: function()
+    /*createControls: function()
     {
     	if(this.options.bullets)this.bulletsController = new BulletsController(this);
     	if(this.options.arrows)this.createArrows();
-    },
+    },*/
     
-    createArrows: function()
+   /* createArrows: function()
     {
     	this.createLeftArrow();
     	this.createRightArrow();
@@ -205,9 +235,9 @@ var SlideBox = new Class({
     	var top = ((height/2) - (arrowsHeight/2));
     	this.leftArrow.setStyle('top', top);
     	this.rightArrow.setStyle('top', top);
-    },
+    },*/
     
-    getNextNode: function(nodeIndex)
+   /* getNextNode: function(nodeIndex)
     {
     	var isLastNode = (nodeIndex == (this.nodes.length - 1));
     	if(isLastNode)
@@ -225,7 +255,7 @@ var SlideBox = new Class({
     		return this.nodes.length -1;
     	}
     	return nodeIndex -1;
-    },
+    },*/
     
     getAnimation: function()
     {
