@@ -1,46 +1,41 @@
-#container
-{
+html * {
+	padding:0; margin:0; border: none;
+}
+
+#container {
 	width: 618px;
 	margin: auto;
 	padding-bottom: 30px;
 	margin-top: 20px;
 }
 
-#wrapper
-{
+#wrapper {
 	width: 1000px;
 	margin: auto;
 	box-shadow: rgb(70,70,70) 0px 0px 10px;
 	border-radius: 10px;
-
+	overflow:hidden;
 }
-h1,h2
-{
+
+h1, h2 {
 	text-align: center;
 	padding-top: 20px;
 }
 
-.list
-{
+.list {
 	float: left;
 	margin-left: 100px;
 }
 
-.clear
-{
-	clear: both;
-}
-
-#myList
-{
+#myList {
 	width: 618px;
 	height: 246px;
-	padding: 0px;
 }
 
 #myList li
 {
 	list-style: none;
+	height: 246px;
 }
 
 #myList li div
@@ -75,8 +70,8 @@ li.this h1 strong
 
 li.this
 {
-	width: 616px;
-	height: 144px;
+	width: 600px;
+	height: 140px;
 	padding-top: 100px;
 	border: 1px solid black;
 	box-shadow:inset 0 0 10px #000000;
