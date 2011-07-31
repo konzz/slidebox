@@ -127,15 +127,9 @@ var SlideBox = new Class({
     {
     	this.container = $(listID);
     	
-    	var firstChild = this.container.getFirst();
-    	var firstChildDimensions = firstChild.getScrollSize();
-    	console.log(firstChild.getHeight());
-    	console.log(firstChild.getStyle('height'));
     	this.container.setStyles({
     		'position':'relative',
     		'overflow':'hidden',
-    		'width':firstChildDimensions.x,
-    		'height':firstChildDimensions.y
     	});
     },
             

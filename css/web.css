@@ -31,6 +31,18 @@ h1,h2
 	clear: both;
 }
 
+#myList
+{
+	width: 618px;
+	height: 246px;
+	padding: 0px;
+}
+
+#myList li
+{
+	list-style: none;
+}
+
 #myList li div
 {
 	position: relative;
