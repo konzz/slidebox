@@ -19,12 +19,7 @@ var Bullets = new Class({
     createBulletsContainer: function()
     {
     	this.bulletsContainer = new Element('ul', {
-			'id':'slidebox-bullets',
-			styles:{
-			'z-index':10,
-			'position':'absolute',
-			}
-		}).inject(this.slidebox.container, 'after');
+			'id':'slidebox-bullets'}).inject(this.slidebox.container, 'after');
     	var wrapper = new Element("div", {'id':'bulletswrapper'}).wraps(this.bulletsContainer);
 	},
 	
