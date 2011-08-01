@@ -49,6 +49,11 @@ var Bullets = new Class({
 		this.bullets[this.activeBullet].removeClass('active');
 		this.bullets[index].addClass('active');
 		this.activeBullet = index;
+	},
+	
+	fireEvent: function(event, data)
+	{
+		if(event == "NODE_CHANGE_EVENT") this.setActive(data);
 	}
 	
 })
