@@ -2,6 +2,7 @@ window.addEvent('load', function(){
 	slider = new SlideBox("myList");
 	
 	slider.addPlugin(new Bullets());
+	slider.addPlugin(new Arrows());
 	
 	slider.start();
 	
