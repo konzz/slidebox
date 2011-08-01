@@ -2,10 +2,9 @@
 var SlideBox = new Class({
 	Implements: Options,
 	
-	container: undefined,
+	NODE_CHANGE_EVENT: "NODE_CHANGE_EVENT",
 	
-	bulletsContainer: undefined,
-	bulletsController: undefined,
+	container: undefined,
 	
 	animations: [],
 	animationsList: [],
@@ -21,7 +20,6 @@ var SlideBox = new Class({
 		transition:			'sine:in:out',
 		wait: 				3000,
 		animation: 			'FromTop',
-		bullets:			true,
 		arrows: 			false,
 	},
 	
@@ -30,8 +28,6 @@ var SlideBox = new Class({
         this.setOptions(options);
         this.setupContainer(slideContainerID);
         this.getNodes();
-   //     this.createControls();
-        this.start();
     },
     
     setupContainer: function(slideContainerID)
@@ -49,8 +45,8 @@ var SlideBox = new Class({
     	this.nodes.each(function(node){
     		node.hide();
     	})
-    	//if(this.options.bullets) this.bulletsController.setActive(0)
     	this.currentNode().show();
+    	this.fireEvent(this.NODE_CHANGE_EVENT,  this.pointer);
     	this.startTimer();
     },
     
@@ -61,7 +57,6 @@ var SlideBox = new Class({
     	
     	if(onSameNode || onlyHasOneNode) return;
     	
-		//this.setActiveBullet();
 		this.onTransition = true;
 		
 		var callBackFunction = this.onAnimationComplete.bind(this);
@@ -95,9 +90,16 @@ var SlideBox = new Class({
     getNodeAt: function(nodeIndex)
     {
     	this.pointer = nodeIndex;
+    	this.fireEvent(this.NODE_CHANGE_EVENT,  this.pointer);
     	return this.nodes[nodeIndex];
     },
     
+    fireEvent: function(event, data)
+    {
+    	this.plugins.each(function(plugin){
+    		plugin.fireEvent(event, data);
+    	})
+    },
     
    /* previousNode: function()
     {
@@ -110,13 +112,6 @@ var SlideBox = new Class({
     	}
     	
     	return this.nodes[previousNode];
-    },*/
-    
-    /*setActiveBullet: function()
-    {
-    	if(!this.options.bullets) return;
-    	var bulletIndex = this.nextNode;
-    	//this.bulletsController.setActive(bulletIndex);
     },*/
     
     jumpToNode: function(nodeIndex)
@@ -171,11 +166,6 @@ var SlideBox = new Class({
     	this.plugins.push(plugin);
     },
             
-   /* createControls: function()
-    {
-    	if(this.options.bullets)this.bulletsController = new BulletsController(this);
-    	//if(this.options.arrows)this.createArrows();
-    },*/
     
    /* createArrows: function()
     {
