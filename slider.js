@@ -3,6 +3,8 @@ window.addEvent('load', function(){
 	
 	slider.addPlugin(new Bullets());
 	
+	slider.start();
+	
 	var animations = [
 	                  new FadeAnimation(slider.options),
 	            //      new RightFadeAnimation(slider.options),
