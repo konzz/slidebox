@@ -1,25 +1,28 @@
-.innerContainer
-{
-	border: 1px solid black;
-}
-
-.caption,
-.caption a,
-.caption:visited
-{
-	color: white;
-	text-shadow: black 2px 2px 2px;
-	letter-spacing: 1px;
-	font-size: 14px;
-	letter-spacing: 1px;
-	font-family: Arial;
-}
-
-li.slidebox-bullet
+ li.slidebox-bullet
 {
 	float: left;
 	list-style: none;
-	margin-left: 10px
+	margin-left: 10px;
+	width: 22px;
+	height: 22px;
+	display:block;
+	position:relative;
+	right:50%;
+}
+
+#slidebox-bullets
+{
+	position:relative;
+   	left:50%;
+   	float: left;
+	clear:left;
+}
+
+#bulletswrapper
+{
+	float:left;
+   	width:100%;
+   	position:relative;
 }
 
 li.slidebox-bullet a
