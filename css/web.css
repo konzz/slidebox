@@ -36,6 +36,7 @@ h1, h2 {
 {
 	list-style: none;
 	height: 246px;
+	width: 618px;
 }
 
 #myList li div
@@ -70,8 +71,6 @@ li.this h1 strong
 
 li.this
 {
-	width: 600px;
-	height: 140px;
 	padding-top: 100px;
 	border: 1px solid black;
 	box-shadow:inset 0 0 10px #000000;
