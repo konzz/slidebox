@@ -52,15 +52,23 @@ var SlideBox = new Class({
     
     doAnimation: function(nodeIndex)
     { 
+    	if(nodeIndex == undefined)
+    	{
+    		var nodeIndex = this.nextNode();
+    	}
+    	
     	var onSameNode = (this.pointer == nodeIndex);
     	var onlyHasOneNode = (this.nodes.length == 1);
     	
     	if(onSameNode || onlyHasOneNode) return;
     	
-		this.onTransition = true;
+    	var currentNode = this.currentNode();
+    	var nextNode = this.goAndGetNodeAt(nodeIndex);
+		
+    	this.onTransition = true;
 		
 		var callBackFunction = this.onAnimationComplete.bind(this);
-		this.getAnimation().animate(this.currentNode(), this.nextNode(nodeIndex), callBackFunction);
+		this.getAnimation().animate(currentNode, nextNode, callBackFunction);
     },
     
     currentNode: function() 
@@ -83,25 +91,10 @@ var SlideBox = new Class({
     	{
     		nextNode = 0;
     	}
-    	
-    	return this.getNodeAt(nextNode);
+    	return nextNode;
     },
     
-    getNodeAt: function(nodeIndex)
-    {
-    	this.pointer = nodeIndex;
-    	this.fireEvent(this.NODE_CHANGE_EVENT,  this.pointer);
-    	return this.nodes[nodeIndex];
-    },
-    
-    fireEvent: function(event, data)
-    {
-    	this.plugins.each(function(plugin){
-    		plugin.fireEvent(event, data);
-    	})
-    },
-    
-   /* previousNode: function()
+    previousNode: function()
     {
     	var previousNode = this.pointer - 1;
     	var isFirstNode = (previousNode == -1);
@@ -111,8 +104,27 @@ var SlideBox = new Class({
     		previousNode = (this.nodes.length - 1);
     	}
     	
-    	return this.nodes[previousNode];
-    },*/
+    	return previousNode;
+    },
+    
+    getNodeAt: function(nodeIndex)
+    {
+    	return this.nodes[nodeIndex];
+    },
+    
+    goAndGetNodeAt: function(nodeIndex)
+    {
+    	this.pointer = nodeIndex;
+    	this.fireEvent(this.NODE_CHANGE_EVENT,  this.pointer);
+    	return this.getNodeAt(nodeIndex);
+    },
+    
+    fireEvent: function(event, data)
+    {
+    	this.plugins.each(function(plugin){
+    		plugin.fireEvent(event, data);
+    	})
+    },
     
     jumpToNode: function(nodeIndex)
     {
@@ -121,16 +133,18 @@ var SlideBox = new Class({
     	this.doAnimation(nodeIndex);
     },
     
-   /* goNextNode: function()
+    goNextNode: function()
     {
-    	this.jumpToNode(this.nextNode);
+    	this.stopTimer();
+    	this.doAnimation();
     },
     
     goPreviousNode: function()
     {
-    	var previousNode = this.getPreviousNode(this.currentNode);
-    	this.jumpToNode(previousNode);
-    },*/
+    	this.stopTimer();
+    	var previousNode = this.previousNode();
+    	this.doAnimation(previousNode);
+    },
     
     startTimer: function()
     {
@@ -165,95 +179,6 @@ var SlideBox = new Class({
     	plugin.setSlider(this);
     	this.plugins.push(plugin);
     },
-            
-    
-   /* createArrows: function()
-    {
-    	this.createLeftArrow();
-    	this.createRightArrow();
-    	
-    	this.leftArrow.inject(this.container);
-    	this.rightArrow.inject(this.container);
-    	this.setArrowsTop();
-    	this.addArrowEvents();
-    },
-    
-    createLeftArrow: function()
-    {
-    	this.leftArrow = new Element('a',{
-    		'class':'arrow leftarrow',
-    		'href': '#',
-    		styles:{
-    			'position':'absolute',
-    			'left':'20px',
-    			'z-index':'2',
-    			'opacity':0
-    		}})
-    },
-    
-    createRightArrow: function()
-    {
-    	this.rightArrow = new Element('a',{
-    		'class':'arrow rightarrow',
-    		'href': '#',
-    		styles:{
-    			'position':'absolute',
-    			'right':'20px',
-    			'z-index':'2',
-    			'opacity':0
-    		}})
-    },
-    
-    addArrowEvents: function()
-    {
-    	this.leftArrow.addEvent('click', function(event){
-    		event.preventDefault();
-    		this.goPreviousNode();
-    	}.bind(this))
-    	
-    	this.rightArrow.addEvent('click', function(event){
-    		event.preventDefault();
-    		this.goNextNode();
-    	}.bind(this))
-    	
-    	this.container.addEvent('mouseenter', function(){
-    		this.leftArrow.fade('in');
-    		this.rightArrow.fade('in');
-    	}.bind(this))
-    	this.container.addEvent('mouseleave', function(){
-    		this.leftArrow.fade('out');
-    		this.rightArrow.fade('out');
-    	}.bind(this))
-    },
-    
-    setArrowsTop: function()
-    {
-    	var height = this.options.height;
-    	var arrowsHeight = this.leftArrow.getScrollSize().y;
-    	var top = ((height/2) - (arrowsHeight/2));
-    	this.leftArrow.setStyle('top', top);
-    	this.rightArrow.setStyle('top', top);
-    },*/
-    
-   /* getNextNode: function(nodeIndex)
-    {
-    	var isLastNode = (nodeIndex == (this.nodes.length - 1));
-    	if(isLastNode)
-    	{
-    		return 0;
-    	}
-    	return nodeIndex +1;
-    },
-    
-    getPreviousNode: function(nodeIndex)
-    {
-    	var isFirstNode = nodeIndex == 0;
-    	if(isFirstNode)
-    	{
-    		return this.nodes.length -1;
-    	}
-    	return nodeIndex -1;
-    },*/
     
     getAnimation: function()
     {
