@@ -9,7 +9,8 @@
 <script type=text/javascript src="lib/mootools-more.js"></script>
 <script type=text/javascript src="core/slidebox.js"></script>
 <script type=text/javascript src="core/node.js"></script>
-<script type=text/javascript src="core/bullets.js"></script>
+<script type=text/javascript src="plugins/bullets.js"></script>
+<script type=text/javascript src="plugins/arrows.js"></script>
 <script type=text/javascript src="core/animation.js"></script>
 <script type=text/javascript src="core/cellanimation.js"></script>
 
