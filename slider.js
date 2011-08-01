@@ -1,6 +1,8 @@
 window.addEvent('load', function(){
 	slider = new SlideBox("myList");
 	
+	slider.addPlugin(new Bullets());
+	
 	var animations = [
 	                  new FadeAnimation(slider.options),
 	            //      new RightFadeAnimation(slider.options),

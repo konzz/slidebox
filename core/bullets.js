@@ -1,12 +1,12 @@
-var BulletsController = new Class({
+var Bullets = new Class({
 	
 	bullets:[],
 	
 	activeBullet: 0,
 	
-	initialize: function(slidebox)
+	setSlider: function(slider)
 	{
-		this.slidebox = slidebox;
+		this.slidebox = slider;
 		this.createBullets()
 	},
 	
@@ -14,18 +14,18 @@ var BulletsController = new Class({
     {
     	this.createBulletsContainer();
     	this.slidebox.nodes.each(this.addBullet.bind(this));
-    	this.setBulletsListPosition();
     },
 	    
     createBulletsContainer: function()
     {
     	this.bulletsContainer = new Element('ul', {
-			'class':'slidebox-bullets',
+			'id':'slidebox-bullets',
 			styles:{
 			'z-index':10,
 			'position':'absolute',
 			}
-		}).inject(this.slidebox.container);
+		}).inject(this.slidebox.container, 'after');
+    	var wrapper = new Element("div", {'id':'bulletswrapper'}).wraps(this.bulletsContainer);
 	},
 	
 	addBullet: function(node, index)
@@ -42,15 +42,6 @@ var BulletsController = new Class({
 	{
 		var bulletli = new Element('li', {'class':'slidebox-bullet'}).inject(this.bulletsContainer);
 		return new Element('a', {'href':'#'}).inject(bulletli);
-	},
-	
-	setBulletsListPosition: function()
-	{
-		var top = this.slidebox.options.height + 20;
-		var listWidth = this.bulletsContainer.getScrollSize().x;
-		var width = this.slidebox.options.width;
-		var left = ((width - listWidth) /2 )
-		this.bulletsContainer.setStyles({'top':top,'left':left,'margin':'0px','padding':'0px'});
 	},
 	
 	setActive: function(index)

@@ -8,7 +8,9 @@ var SlideBox = new Class({
 	bulletsController: undefined,
 	
 	animations: [],
-	animationsList: [],	
+	animationsList: [],
+	
+	plugins: [],
 	
 	nodes: [],
 	pointer: 0,
@@ -19,7 +21,7 @@ var SlideBox = new Class({
 		transition:			'sine:in:out',
 		wait: 				3000,
 		animation: 			'FromTop',
-		bullets:			false,
+		bullets:			true,
 		arrows: 			false,
 	},
 	
@@ -28,7 +30,7 @@ var SlideBox = new Class({
         this.setOptions(options);
         this.setupContainer(slideContainerID);
         this.getNodes();
-     //   this.createControls();
+   //     this.createControls();
         this.start();
     },
     
@@ -162,11 +164,17 @@ var SlideBox = new Class({
 		var newNode = new Node(slide, this.options);
 		this.nodes.push(newNode);
     },
+    
+    addPlugin: function(plugin)
+    {
+    	plugin.setSlider(this);
+    	this.plugins.push(plugin);
+    },
             
-    /*createControls: function()
+   /* createControls: function()
     {
     	if(this.options.bullets)this.bulletsController = new BulletsController(this);
-    	if(this.options.arrows)this.createArrows();
+    	//if(this.options.arrows)this.createArrows();
     },*/
     
    /* createArrows: function()
